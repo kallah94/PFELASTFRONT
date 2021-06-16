@@ -11,6 +11,8 @@ import { map } from 'rxjs/operators';
 })
 export class AuthService {
   apiUrl = environment.apiUrl;
+  jwtLogin = environment.jwtLogin;
+  jwtRefresh = environment.jwtRefresh;
   private currentUserSubject: BehaviorSubject<User>;
   private currentUser: Observable<User>;
   constructor(
@@ -23,7 +25,7 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
   login(user: User) {
-    return this.http.post<any>(`${this.apiUrl}/api-token-auth/`, user)
+    return this.http.post<any>(`${this.apiUrl}/${this.jwtLogin}`, user)
       .pipe(
         map(response => {
           let currentUser: User;
@@ -38,9 +40,7 @@ export class AuthService {
         })
       )
   }
-  registerUser(user: User): Promise<User> {
-    return this.http.post<User>(`${this.apiUrl}/register`, user, { headers: { skip: 'true' } }).toPromise();
-  }
+  
   logout(): void {
     localStorage.removeItem('currentUser')
     this.currentUserSubject.next(null!)

@@ -6,7 +6,15 @@ export const environment = {
   production: false,
   apiUrl: 'http://localhost:8000',
   jwtLogin: 'api-token-auth/',
-  jwtRefresh: 'api-token-refresh/'
+  jwtRefresh: 'api-token-refresh/',
+  providerEndpoint: 'providers',
+  ruleEndpoint: 'rules',
+  pricingEndpoint: 'pricing',
+  projectEndpoint: 'projects',
+  attributeEndpoint: 'attributes',
+  criterionEndpoint: "criterion",
+  atomEndpoint: "atoms",
+  conditionEndpoint: "conditions"
 };
 
 /*

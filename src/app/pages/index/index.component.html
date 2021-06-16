@@ -98,6 +98,7 @@
     <div class="container">
       <div class="content-center brand">
         <h1 class="h1-seo">BLK•</h1>
+
         <h3>
           A beautiful Design System for Bootstrap 4 and Angular. It's Free and
           Open Source.
@@ -253,7 +254,16 @@
     <div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black" #myModal2="bs-modal"
       id="myModal2" role="dialog" tabindex="-1">
       <div class="modal-dialog">
-        <div class="modal-content">
+        <div align="center" *ngIf="spinner" style="padding-top: 35%;">
+          <ngx-spinner *ngIf="spinner" bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff"
+            type="ball-scale-multiple">
+            <div style="color: #f4696b" class="la-ball-clip-rotate-pulse la-3x">
+              <div></div>
+              <div></div>
+            </div>
+          </ngx-spinner>
+        </div>
+        <div *ngIf="!spinner" class="modal-content justify-content-center">
           <div class="modal-header justify-content-center">
             <button aria-hidden="true" class="close" data-dismiss="modal" (click)="myModal2.hide()" type="button">
               <i class="tim-icons icon-simple-remove text-white"> </i>
@@ -274,6 +284,14 @@
             <div class="text-center text-muted mb-4 mt-3">
               <small> Or sign in with credentials </small>
             </div>
+
+            <alert *ngIf="notif" class="alert-with-icon" [type]="'danger alert-with-icon'" [dismissible]="true">
+              <span class="tim-icons icon-bell-55" data-notify="icon"> </span>
+              <span>
+                <b> Oups! - </b> Une erreur c'est produite
+              </span>
+            </alert>
+
             <form role="form" [formGroup]="loginForm">
               <div class="form-group mb-3">
                 <div class="input-group input-group-alternative" [ngClass]="{ 'input-group-focus': focus1 === true }">
@@ -294,7 +312,7 @@
                     </span>
                   </div>
                   <input class="form-control" placeholder="Password" type="password" (focus)="focus2 = true"
-                    (blur)="focus2 = false" formControlName="password" required/>
+                    (blur)="focus2 = false" formControlName="password" required />
                 </div>
               </div>
               <div class="form-check mt-3">

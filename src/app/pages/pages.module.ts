@@ -1,5 +1,5 @@
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
@@ -16,7 +16,7 @@ import { CarouselModule } from "ngx-bootstrap/carousel";
 import { ModalModule } from "ngx-bootstrap/modal";
 import { JwBootstrapSwitchNg2Module } from "jw-bootstrap-switch-ng2";
 import { PopoverModule } from "ngx-bootstrap/popover";
-
+import { NgxSpinnerModule } from "ngx-bootstrap-spinner";
 import { IndexComponent } from "./index/index.component";
 import { ProfilepageComponent } from "./examples/profilepage/profilepage.component";
 import { RegisterpageComponent } from "./examples/registerpage/registerpage.component";
@@ -27,9 +27,11 @@ import { HomeComponent } from './vues/home/home.component';
   imports: [
     CommonModule,
     BrowserModule,
+    NgxSpinnerModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
+    NgxSpinnerModule,
     BsDropdownModule.forRoot(),
     ProgressbarModule.forRoot(),
     TooltipModule.forRoot(),
@@ -56,6 +58,7 @@ import { HomeComponent } from './vues/home/home.component';
     RegisterpageComponent,
     LandingpageComponent
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: []
 })
 export class PagesModule {}
