@@ -22,10 +22,13 @@ import { ProfilepageComponent } from "./examples/profilepage/profilepage.compone
 import { RegisterpageComponent } from "./examples/registerpage/registerpage.component";
 import { LandingpageComponent } from "./examples/landingpage/landingpage.component";
 import { HomeComponent } from './vues/home/home.component';
+import { ProviderComponent } from './vues/provider/provider.component';
+import { RangeSliderModule } from "ngx-range-slider";
 
 @NgModule({
   imports: [
     CommonModule,
+    RangeSliderModule,
     BrowserModule,
     NgxSpinnerModule,
     FormsModule,
@@ -50,7 +53,8 @@ import { HomeComponent } from './vues/home/home.component';
     ProfilepageComponent,
     RegisterpageComponent,
     LandingpageComponent,
-    HomeComponent
+    HomeComponent,
+    ProviderComponent
   ],
   exports: [
     IndexComponent,

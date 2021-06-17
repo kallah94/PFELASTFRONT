@@ -18,7 +18,7 @@ export class AuthInterceptor implements HttpInterceptor {
     private authService: AuthService
   ) { }
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const currentUser = this.authService.currentUserValue
     const isLoggedIn = currentUser && currentUser.token
     const isApiUrl = request.url.startsWith(environment.apiUrl)
@@ -82,6 +82,4 @@ export class AuthInterceptor implements HttpInterceptor {
       }
     });
   }
-
-
 }
