@@ -70,3 +70,17 @@ export class Criteria {
     vhrate: number | undefined;
     url!: string
 }
+
+export class Project {
+    name: string
+    architecture: string
+    costEstimation: number
+    type_application: string
+    environment: string
+    sla: number
+    dependencies: string[]
+    flux: string[]
+    data_size: number
+    owner: string
+    url: string
+}

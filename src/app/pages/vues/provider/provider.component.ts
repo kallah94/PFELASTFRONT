@@ -16,7 +16,6 @@ import { environment } from 'src/environments/environment';
 export class ProviderComponent implements OnInit, OnDestroy, AfterViewInit {
   isCollapsed = true;
   provForm: FormGroup;
-  provider: Provider[];
   dataSource = new MatTableDataSource<Provider>();
   fTitle = "Nouveau"
   url = null
@@ -26,7 +25,6 @@ export class ProviderComponent implements OnInit, OnDestroy, AfterViewInit {
   baseUrl = environment.providerEndpoint
   displayedColumns = ['name', 'reliability', 'flexibility', 'maturity', 'dataSecurity', 'geoDispatching', 'price', 'action'];
   @ViewChild('myModal1', { static: false }) myModal1: ModalDirective
-  @ViewChild('form', {static: true}) form: Element
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   constructor(
@@ -35,8 +33,7 @@ export class ProviderComponent implements OnInit, OnDestroy, AfterViewInit {
   ) { }
 
   scrollToElement($element): void {
-    console.log($element);
-    $element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+    $element.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
   }
   ngOnInit(): void {
     var body = document.getElementsByTagName("body")[0];
@@ -60,11 +57,8 @@ export class ProviderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getAllproviders() {
-    console.log(this.baseUrl)
     this.storeService.getItems(this.baseUrl).then(data => {
       this.dataSource.data = data.results
-      this.provider = data.results
-      console.log(this.provider)
     })
   }
   get f() {
@@ -82,17 +76,12 @@ export class ProviderComponent implements OnInit, OnDestroy, AfterViewInit {
       url: ['']
     })
   }
-
-
-
   reset() {
     this.provForm.reset()
     this.fTitle = 'Nouveau'
   }
   submit() {
-    if (this.provForm.invalid) {
-      return
-    }
+    if (this.provForm.invalid) { return }
     this.spinner = true;
     const prov = new Provider()
     prov.name = this.f.name.value

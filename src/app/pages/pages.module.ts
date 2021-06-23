@@ -16,19 +16,25 @@ import { CarouselModule } from "ngx-bootstrap/carousel";
 import { ModalModule } from "ngx-bootstrap/modal";
 import { JwBootstrapSwitchNg2Module } from "jw-bootstrap-switch-ng2";
 import { PopoverModule } from "ngx-bootstrap/popover";
+import { RangeSliderModule } from "ngx-range-slider";
 import { NgxSpinnerModule } from "ngx-bootstrap-spinner";
+
 import { IndexComponent } from "./index/index.component";
 import { ProfilepageComponent } from "./examples/profilepage/profilepage.component";
 import { RegisterpageComponent } from "./examples/registerpage/registerpage.component";
 import { LandingpageComponent } from "./examples/landingpage/landingpage.component";
 import { HomeComponent } from './vues/home/home.component';
 import { ProviderComponent } from './vues/provider/provider.component';
-import { RangeSliderModule } from "ngx-range-slider";
+import { ProjectComponent } from './vues/project/project.component';
 
 
+import {MatIconModule} from '@angular/material/icon';
 import {MatTableModule} from '@angular/material/table'; 
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -53,7 +59,10 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     ModalModule.forRoot(),
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    MatIconModule
   ],
   declarations: [
     IndexComponent,
@@ -61,7 +70,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     RegisterpageComponent,
     LandingpageComponent,
     HomeComponent,
-    ProviderComponent
+    ProviderComponent,
+    ProjectComponent
   ],
   exports: [
     IndexComponent,
