@@ -65,7 +65,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header justify-content-center">
-                <button aria-hidden="true" class="close" data-dismiss="modal" data-target="myModal1" (click)="myModal1.hide()" type="button">
+                <button aria-hidden="true" class="close" data-dismiss="modal" data-target="myModal1"
+                    (click)="myModal1.hide()" type="button">
                     <i class="tim-icons icon-simple-remove text-white"> </i>
                 </button>
                 <div class="modal-profile">
@@ -85,44 +86,61 @@
     </div>
 </div>
 <div class="wrapper">
-    <div class="page-header" style="padding-top: 300px;">
-        <div class="container-fluid align-items-center">
-            <div class="row">
+    <section class="section" id="header">
+        <div class="page-header" style="padding-top: 300px;">
+            <div class="container-fluid align-items-center">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 ml-auto mr-auto">
+                        <div class="card card-coin card-plain">
+                            <div class="card-header">
+                                <img class="img-center img-fluid rounded-circle" src="assets/img/cloud2.jpg" />
 
-                <div class="col-lg-12 col-md-12 ml-auto mr-auto">
-                    <div class="card card-coin card-plain">
-                        <div class="card-header">
-                            <img class="img-center img-fluid rounded-circle" src="assets/img/cloud2.jpg" />
+                                <h4 class="title">Providers</h4>
+                            </div>
+                            <div class="card-body">
+                                <tabset class="nav-tabs-danger justify-content-center">
 
-                            <h4 class="title">Providers</h4>
-                        </div>
-                        <div class="card-body">
-                            <tabset class="nav-tabs-danger justify-content-center">
-
-                                <div class="table-responsive">
-                                    <table class="table tablesorter" id="plain-table">
-                                        <thead class="text-danger">
-                                            <tr>
-                                                <th class="header">NOM</th>
-                                                <th class="header">FIABILITE</th>
-                                                <th class="header">FLEXIBILITE</th>
-                                                <th class="header">MATURITE</th>
-                                                <th class="header">SECURITE</th>
-                                                <th class="header">GEOREP</th>
-                                                <th class="header">PRIX</th>
-                                                <th class="header">ACTION</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let row of provider">
-                                                <td>{{row.name}}</td>
-                                                <td>{{row.reliability}}</td>
-                                                <td>{{row.flexibility}}</td>
-                                                <td>{{row.maturity}}</td>
-                                                <td>{{row.data_security}}</td>
-                                                <td> {{row.geo_dispatching}}<strong>%</strong></td>
-                                                <td>{{row.price}}</td>
-                                                <td>
+                                    <div class="table-responsive">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input class="form-control" (keyup)="applyFilter($event)" #input
+                                                    placeholder="filter" type="text" />
+                                            </div>
+                                        </div>
+                                        <table mat-table [dataSource]="dataSource" matSort class="table tablesorter"
+                                            id="plain-table">
+                                            <ng-container matColumnDef="name">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                                                <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="reliability">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Reliability</th>
+                                                <td mat-cell *matCellDef="let row"> {{row.reliability}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="flexibility">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Flexibility</th>
+                                                <td mat-cell *matCellDef="let row"> {{row.flexibility}}</td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="maturity">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Maturity /100
+                                                </th>
+                                                <td mat-cell *matCellDef="let row"> {{row.maturity}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="dataSecurity">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Data Security</th>
+                                                <td mat-cell *matCellDef="let row"> {{row.data_security}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="geoDispatching">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>GeoDispatching</th>
+                                                <td mat-cell *matCellDef="let row"> {{row.geo_dispatching}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="price">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
+                                                <td mat-cell *matCellDef="let row"> {{row.price}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="action">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+                                                <td mat-cell *matCellDef="let row">
                                                     <button class="btn btn-primary btn-icon btn-round mr-1"
                                                         type="button" (click)="edit(row)">
                                                         <i class="tim-icons icon-pencil"> </i>
@@ -132,19 +150,30 @@
                                                         <i class="tim-icons icon-trash-simple"> </i>
                                                     </button>
                                                 </td>
+                                            </ng-container>
+
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                                            <!-- Row shown when there is no matching data -->
+                                            <tr class="mat-row" *matNoDataRow>
+                                                <td class="mat-cell" colspan="4">No data matching the filter
+                                                    "{{input.value}}"</td>
                                             </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </tabset>
+                                        </table>
+                                        <mat-paginator class="table tablesorter" [pageSizeOptions]="[5, 10, 25, 100]">
+                                        </mat-paginator>
+                                    </div>
+                                </tabset>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
     <section class="section">
-        <div class="container">
+        <div class="container" id="form">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-plain">

@@ -25,6 +25,10 @@ import { HomeComponent } from './vues/home/home.component';
 import { ProviderComponent } from './vues/provider/provider.component';
 import { RangeSliderModule } from "ngx-range-slider";
 
+
+import {MatTableModule} from '@angular/material/table'; 
+import {MatSortModule} from '@angular/material/sort';
+import {MatPaginatorModule} from '@angular/material/paginator';
 @NgModule({
   imports: [
     CommonModule,
@@ -46,7 +50,10 @@ import { RangeSliderModule } from "ngx-range-slider";
     AlertModule.forRoot(),
     BsDatepickerModule.forRoot(),
     CarouselModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule
   ],
   declarations: [
     IndexComponent,
