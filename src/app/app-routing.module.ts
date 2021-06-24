@@ -10,6 +10,7 @@ import { LandingpageComponent } from "./pages/examples/landingpage/landingpage.c
 import { HomeComponent } from "./pages/vues/home/home.component";
 import { ProviderComponent } from "./pages/vues/provider/provider.component";
 import { ProjectComponent } from "./pages/vues/project/project.component";
+import { ReglesComponent } from "./pages/vues/regles/regles.component";
 
 const routes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
@@ -19,7 +20,8 @@ const routes: Routes = [
   { path: "register", component: RegisterpageComponent },
   { path: "landing", component: LandingpageComponent },
   {path: 'providers', component: ProviderComponent},
-  {path: 'projects', component: ProjectComponent}
+  {path: 'projects', component: ProjectComponent},
+  {path: 'regles', component: ReglesComponent}
 ];
 
 @NgModule({
