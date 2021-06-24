@@ -35,7 +35,10 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatSelectModule} from '@angular/material/select';
-import { ReglesComponent } from './vues/regles/regles.component'; 
+import { ReglesComponent } from './vues/regles/regles.component';
+import { AttrProviderComponent } from './vues/attr-provider/attr-provider.component';
+import { AtomComponent } from './vues/atom/atom.component';
+import { ConditionComponent } from './vues/condition/condition.component'; 
 
 @NgModule({
   imports: [
@@ -75,7 +78,10 @@ import { ReglesComponent } from './vues/regles/regles.component';
     HomeComponent,
     ProviderComponent,
     ProjectComponent,
-    ReglesComponent
+    ReglesComponent,
+    AttrProviderComponent,
+    AtomComponent,
+    ConditionComponent
   ],
   exports: [
     IndexComponent,
