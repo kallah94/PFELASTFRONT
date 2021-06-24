@@ -203,32 +203,16 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Type d'application</label>
-                                            <input class="form-control" placeholder="type d'application" type="text"
-                                                formControlName="typeApplication" required />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label> Architecture</label>
-                                            <input class="form-control" placeholder="architecture du projet" type="text"
-                                                formControlName="architecture" required />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Environnement </label>
-                                            <input class="form-control" placeholder="Environnement" type="text"
-                                                formControlName="environment" required />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
                                             <label>Taille des Donnees</label>
-                                            <input class="form-control" placeholder="taille des donnees" type="number"
+                                            <input class="form-control" placeholder="taille des donnees en GiB" type="number"
                                                 formControlName="dataSize" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Estimation Cout</label>
+                                            <input class="form-control" placeholder="Opex, Capex en  FCFA" type="number"
+                                                formControlName="costEstimation" required />
                                         </div>
                                     </div>
                                 </div>
@@ -236,16 +220,49 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>SLA</label>
-                                            <input class="form-control" placeholder="SLA" type="number"
-                                                formControlName="sla" required />
+                                            <mat-select formControlName="sla" placeholder="service level agrement">
+                                                <mat-option *ngFor="let sla of SLA" [value]="sla.value">
+                                                    {{sla.viewValue}}
+                                                </mat-option>
+                                            </mat-select>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <!-- <div class="form-group">
-                                            <label>Dependences</label>
-                                            <input class="form-control" placeholder="Dependences" type="text"
-                                                formControlName="dependencies" required />
-                                        </div>-->
+                                        <div class="form-group">
+                                            <label>Architecture</label>
+                                            <mat-select formControlName="architecture" placeholder="architecture de l'application">
+                                                <mat-option *ngFor="let arch of Archi" [value]="arch.value"
+                                                    aria-placeholder="architecture">
+                                                    {{arch.viewValue}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Environnement</label> 
+                                            <mat-select formControlName="environment" placeholder="environnement pour le projet">
+                                                <mat-option *ngFor="let env of environment" [value]="env.value">
+                                                    {{env.viewValue}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Type Application</label> 
+                                            <mat-select formControlName="typeApplication" placeholder="type d'application" >
+                                                <mat-option *ngFor="let tap of typeApp" [value]="tap.value">
+                                                    {{tap.viewValue}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Dependences</label>
                                             <mat-chip-list #chipListDep aria-label="Dependences selection">
@@ -265,15 +282,6 @@
                                                     {{dep}}
                                                 </mat-option>
                                             </mat-autocomplete>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Estimation Cout</label>
-                                            <input class="form-control" placeholder="Opex, Capex" type="number"
-                                                formControlName="costEstimation" required />
                                         </div>
                                     </div>
                                     <div class="col-md-6">

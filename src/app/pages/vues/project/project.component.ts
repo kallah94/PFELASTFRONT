@@ -13,6 +13,26 @@ import { Project } from 'src/app/class/model';
 import { StoreService } from 'src/app/service/store.service';
 import { environment } from 'src/environments/environment';
 
+interface Env {
+  value: string
+  viewValue: string
+}
+
+interface TypeApp {
+  value: string
+  viewValue: string
+}
+
+interface Sla {
+  value: number
+  viewValue: string
+}
+
+interface Archi {
+  value: string
+  viewValue: string
+}
+
 @Component({
   selector: 'app-project',
   templateUrl: './project.component.html',
@@ -40,6 +60,27 @@ export class ProjectComponent implements OnInit, OnDestroy, AfterViewInit {
   allDependencies: string[] = ['Mysql 7.2', 'MongoDB 1.4.5', 'Nginx 2.5', 'JavaFx 3.0.2']
   allFlux: string[] = ['OrangeMoney', 'Gaya', 'RGSystem', 'Nessico', 'kudo'];
   displayedColumns = ['name', 'architecture', 'type_application', 'environment', 'sla', 'dependencies', 'flux', 'dataSize', 'cost_estimation', 'action']
+  environment: Env[] = [
+    { value: 'development', viewValue: 'Developpement' },
+    { value: 'test', viewValue: 'Test' },
+    { value: 'production', viewValue: 'Production' }
+  ]
+  typeApp: TypeApp[] = [
+    { value: 'mobile', viewValue: 'Mobile' },
+    { value: 'desktop', viewValue: 'DeskTop' },
+    { value: 'web', viewValue: 'Web' }
+  ]
+  SLA: Sla[] = [
+    { value: 2, viewValue: '2H' },
+    { value: 4, viewValue: '4H' },
+    { value: 8, viewValue: '8H' },
+    { value: 12, viewValue: '12H' },
+    { value: 24, viewValue: '24H' }
+  ]
+  Archi: Archi[] = [
+    { value: 'mono', viewValue: 'Monolithique' },
+    { value: 'micro', viewValue: 'Microservices' }
+  ]
   @ViewChild('myModal1', { static: false }) myModal1: ModalDirective
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -55,9 +96,9 @@ export class ProjectComponent implements OnInit, OnDestroy, AfterViewInit {
     this.filteredFlux = this.fluxCtrl.valueChanges.pipe(
       startWith(null),
       map((flux: string | null) => flux ? this._filter(flux) : this.allFlux.slice()));
-      this.filteredDep = this.depCrtl.valueChanges.pipe(
-        startWith(null),
-        map((dep: string | null) => dep ? this._filterDep(dep): this.allDependencies.slice()))
+    this.filteredDep = this.depCrtl.valueChanges.pipe(
+      startWith(null),
+      map((dep: string | null) => dep ? this._filterDep(dep) : this.allDependencies.slice()))
   }
 
   add(event: MatChipInputEvent): void {
@@ -86,7 +127,7 @@ export class ProjectComponent implements OnInit, OnDestroy, AfterViewInit {
   removeDep(dep: string): void {
     const index = this.dependencies.indexOf(dep)
     if (index >= 0) {
-      this.dependencies.slice(index, 1)
+      this.dependencies.splice(index, 1)
     }
   }
 
@@ -113,7 +154,7 @@ export class ProjectComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.allDependencies.filter(dep => dep.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  
+
 
   scrollToElement($element): void {
     $element.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
