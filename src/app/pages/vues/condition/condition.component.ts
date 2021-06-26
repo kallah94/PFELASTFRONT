@@ -1,6 +1,8 @@
 import { ViewChild } from '@angular/core';
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Atom } from 'src/app/class/model';
@@ -24,7 +26,7 @@ interface COMPARATOR {
   templateUrl: './condition.component.html',
   styleUrls: ['./condition.component.scss']
 })
-export class ConditionComponent implements OnInit, OnDestroy {
+export class ConditionComponent implements OnInit, OnDestroy, AfterViewInit{
   atomForm: FormGroup
   conditions: FormArray
   fTitle = "Nouveau"
@@ -34,7 +36,8 @@ export class ConditionComponent implements OnInit, OnDestroy {
   atoms: Atom[]
   spinner = false
   baseUrl = environment.atomEndpoint
-
+  dataSource = new MatTableDataSource<Atom>()
+  displayedColumns = ['champ', 'compare', 'seuil', 'valeur']
   criteres: CRITERE[] = [
     { value: 'criticality', viewValue: "Criticite" },
     { value: 'complexity', viewValue: "Complexite" },
@@ -59,6 +62,8 @@ export class ConditionComponent implements OnInit, OnDestroy {
     { value: '>=', viewValue: "superieur ou egal a" },
   ]
   @ViewChild('myModal1', { static: false }) myModal1: ModalDirective
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
   constructor(
     private formBuilder: FormBuilder,
     private storeService: StoreService
@@ -74,6 +79,10 @@ export class ConditionComponent implements OnInit, OnDestroy {
     this.buildForm()
   }
 
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
   getAllAtoms() {
     this.storeService.getItems(this.baseUrl).then(data => {
       this.atoms = data.results
@@ -152,13 +161,12 @@ export class ConditionComponent implements OnInit, OnDestroy {
     this.f.critere.setValue(row.criteria)
     this.criteres.push(this.definecriteres.find(item => item.value == row.criteria));
     row.condition.forEach(() => {
-      this.index = this.index+1;
+      this.index = this.index + 1;
       (<FormArray>this.atomForm.controls['conditions']).patchValue(row.condition);
       this.addCond();
     });
     this.removeCond(this.index)
-
-    this.index= 0
+    this.index = 0
     this.scrollToElement(document.getElementById("form2"))
     console.warn('test ', this.atomForm.controls.conditions.value)
   }
@@ -180,6 +188,15 @@ export class ConditionComponent implements OnInit, OnDestroy {
     this.atomForm.reset()
   }
 
+  makeDataSource(atom: Atom) {
+    const dataSource = new MatTableDataSource<Atom>()
+    dataSource.data = atom.condition
+    return dataSource
+  }
+  getOpLabel(value: string): string {
+    return this.comparators.find(comp => comp.value == value).viewValue
+  }
+ 
   ngOnDestroy() {
     var body = document.getElementsByTagName("body")[0];
     body.classList.remove("profile-page");
