@@ -108,12 +108,13 @@ export class ReglesComponent implements OnInit, OnDestroy, AfterViewInit {
   edit(row: Rule) {
     this.fTitle = 'Update'
     this.isNew = false
-    this.f.name.setValue(row.name)
+    this.f.nom.setValue(row.name)
     this.f.criticite.setValue(row.criticality)
     this.f.complexite.setValue(row.complexity)
     this.f.disponibilite.setValue(row.availability)
     this.f.type.setValue(row.type)
     this.f.url.setValue(row.url)
+    this.scrollToElement(document.getElementById("form"))
   }
 
   show(url: string) {

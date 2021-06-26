@@ -55,7 +55,6 @@ export class AttrProviderComponent implements OnInit, OnDestroy, AfterViewInit {
     $element.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
   }
   ngOnInit(): void {
-    
     this.getAllattributes()
     this.buildForm()
   }

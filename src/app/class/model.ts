@@ -50,14 +50,15 @@ export class Pricing {
 }
 
 export class Condition {
+    name: string
+    criteria: string
     condition!: Object
+    url: string
 }
 
 export class Atom {
-    name!: string;
-    status!: Boolean;
     criteria!: string;
-    condition!: string;
+    condition!: any[];
     url!: string
 }
 

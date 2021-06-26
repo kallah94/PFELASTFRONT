@@ -1,4 +1,3 @@
-
 <nav class="navbar navbar-expand-lg fixed-top navbar-transparent" color-on-scroll="100" id="navbar-top">
     <div class="container">
         <div class="navbar-translate">
@@ -96,7 +95,7 @@
                             <div class="card-header">
                                 <img class="img-center img-fluid rounded-circle" src="assets/img/cloud2.jpg" />
 
-                                <h4 class="title">Providers</h4>
+                                <h4 class="title">References d'application public cloud ready</h4>
                             </div>
                             <div class="card-body">
                                 <tabset class="nav-tabs-danger justify-content-center">
@@ -116,7 +115,7 @@
                                             </ng-container>
                                             <ng-container matColumnDef="criticality">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Criticite</th>
-                                                <td mat-cell *matCellDef="let row"> {{row.criticality}} </td>
+                                                <td mat-cell *matCellDef="let row">{{row.criticality}}</td>
                                             </ng-container>
                                             <ng-container matColumnDef="complexity">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Complexite</th>
@@ -146,7 +145,8 @@
                                             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                                             <tr class="mat-row" *matNoDataRow>
-                                                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                                                <td class="mat-cell" colspan="4">No data matching the filter
+                                                    "{{input.value}}"</td>
                                             </tr>
                                         </table>
                                         <mat-paginator class="table tablesorter" [pageSizeOptions]="[5, 10, 25, 100]">
@@ -174,7 +174,8 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label> Nom de la reference</label>
-                                            <input class="form-control" placeholder="nom de la reference ...." type="text" formControlName="nom" required />
+                                            <input class="form-control" placeholder="nom de la reference ...."
+                                                type="text" formControlName="nom" required />
                                         </div>
                                     </div>
                                 </div>
@@ -182,13 +183,15 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Criticite</label>
-                                            <input class="form-control" placeholder="criticite reference...." type="number" formControlName="criticite" required max="100" min="0" />
+                                            <input class="form-control" placeholder="criticite reference...."
+                                                type="number" formControlName="criticite" required max="100" min="0" />
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Complexite</label>
-                                            <input class="form-control" placeholder="complexite reference..." type="number" formControlName="complexite" required />
+                                            <input class="form-control" placeholder="complexite reference..."
+                                                type="number" formControlName="complexite" required />
                                         </div>
                                     </div>
                                 </div>
@@ -196,13 +199,16 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Disponibilite</label>
-                                            <input class="form-control" placeholder="disponibilite reference...." type="number" formControlName="disponibilite" required max="100" min="0" />
+                                            <input class="form-control" placeholder="disponibilite reference...."
+                                                type="number" formControlName="disponibilite" required max="100"
+                                                min="0" />
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Type de Regle</label>
-                                            <input class="form-control" placeholder="regle pour ...." type="text" formControlName="type" max="100" min="0" required />
+                                            <input class="form-control" placeholder="regle pour ...." type="text"
+                                                formControlName="type" max="100" min="0" required />
                                         </div>
                                     </div>
                                 </div>
@@ -227,6 +233,9 @@
 
             </div>
         </div>
+    </section>
+    <section class="section">
+        <app-condition></app-condition>
     </section>
     <footer class="footer">
         <div class="container">

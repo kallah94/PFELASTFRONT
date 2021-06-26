@@ -1,1 +1,160 @@
-<p>condition works!</p>
+<section class="section section-lg section-coins">
+    <img class="path" src="assets/img/path3.png" />
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4" *ngFor="let atom of atoms">
+                <div class="card card-coin card-plain align-items-center">
+                    <div class="card-header">
+                        <img class="img-center img-fluid" src="assets/img/bitcoin.png" />
+                    </div>
+                    <div class="card-body text-center">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4 class="text-uppercase">{{atom.criteria}}</h4>
+                                <span> Conditions </span>
+                                <hr class="line-primary" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <ul class="list-group">
+                                <li class="list-group-item" *ngFor="let cond of atom.condition">{{cond.condField}}&nbsp;{{cond.condOp}}&nbsp;{{cond.condSeuil}}&nbsp;:
+                                    <span class="badge badge-warning badge-pill">{{cond.condValue}}</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <button class="btn btn-primary btn-simple" (click)="edit(atom)"> <i class="tim-icons icon-pencil"> </i></button>
+                        <button class="btn btn-warning btn-simple" (click)="show(atom.url)"><i class="tim-icons icon-trash-simple"> </i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-mini modal-warning modal-mini"
+    #myModal1="bs-modal" id="myModal1" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <button aria-hidden="true" class="close" data-dismiss="modal" data-target="myModal1"
+                    (click)="myModal1.hide()" type="button">
+                    <i class="tim-icons icon-simple-remove text-white"> </i>
+                </button>
+                <div class="modal-profile">
+                    <i class="tim-icons icon-spaceship"> </i>
+                </div>
+            </div>
+            <div class="modal-body">
+                <p>Always have an access to your profile</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-link btn-neutral" type="button">Back</button>
+                <button class="btn btn-link btn-neutral" data-dismiss="modal" type="button" (click)="delete()">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="wrapper">
+    <section class="section">
+        <div class="container" id="form2">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-plain">
+                        <div class="card-header">
+                            <h5 class="text-on-back" align="center">{{fTitle}}</h5>
+                        </div>
+                        <div class="card-body">
+                            <form [formGroup]="atomForm">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <label>Attribut</label>
+                                            <mat-select formControlName="critere" class="form-control"
+                                                placeholder="attribut concernee....">
+                                                <mat-option *ngFor="let critere of criteres" [value]="critere.value">
+                                                    {{critere.viewValue}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-primary btn-icon btn-round mr-1" style="margin-top:20px"
+                                            type="button" (click)="addCond()">
+                                            <i class="tim-icons icon-simple-add"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div formArrayName="conditions" *ngFor="let cond of getControles(); let i = index">
+                                    <div class="row" [formGroupName]="i">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Champ Concerne</label>
+                                                <mat-select formControlName="condField" class="form-control"
+                                                    placeholder="champs concernee">
+                                                    <mat-option *ngFor="let field of fields" [value]="field.value">
+                                                        {{field.viewValue}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Comparateur</label>
+                                                <mat-select formControlName="condOp" class="form-control"
+                                                    placeholder="champs concernee">
+                                                    <mat-option *ngFor="let comp of comparators" [value]="comp.value">
+                                                        {{comp.viewValue}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Seuil~Ref</label>
+                                                <input class="form-control" placeholder=" valeur seuil...." type="text"
+                                                    formControlName="condSeuil" required />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Valeur</label>
+                                                <input class="form-control" placeholder=" valeur prise...."
+                                                    type="number" formControlName="condValue" required />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button class="btn btn-danger btn-icon btn-round mr-1"
+                                                style="margin-top:20px" type="button" data-target="#myModal1"
+                                                (click)="removeCond(i)">
+                                                <i class="tim-icons icon-trash-simple"> </i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-center">
+                                    <div class="col-md-3 mr-1">
+                                        <button class="btn btn-success btn-round float-left" placement="left"
+                                            type="submit" (click)="submit()">
+                                            Save
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-danger btn-round float-right" placement="right"
+                                            type="submit" (click)="reset()">
+                                            Reset
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>

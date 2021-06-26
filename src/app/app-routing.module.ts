@@ -21,7 +21,7 @@ const routes: Routes = [
   { path: "landing", component: LandingpageComponent },
   {path: 'providers', component: ProviderComponent},
   {path: 'projects', component: ProjectComponent},
-  {path: 'regles', component: ReglesComponent}
+  {path: 'regles', component: ReglesComponent},
 ];
 
 @NgModule({

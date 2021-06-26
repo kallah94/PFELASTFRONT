@@ -160,11 +160,8 @@
                                                     </button>
                                                 </td>
                                             </ng-container>
-
                                             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-                                            <!-- Row shown when there is no matching data -->
                                             <tr class="mat-row" *matNoDataRow>
                                                 <td class="mat-cell" colspan="4">No data matching the filter
                                                     "{{input.value}}"</td>
@@ -220,7 +217,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>SLA</label>
-                                            <mat-select formControlName="sla" placeholder="service level agrement">
+                                            <mat-select formControlName="sla" class="form-control" placeholder="service level agrement">
                                                 <mat-option *ngFor="let sla of SLA" [value]="sla.value">
                                                     {{sla.viewValue}}
                                                 </mat-option>
@@ -230,7 +227,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Architecture</label>
-                                            <mat-select formControlName="architecture" placeholder="architecture de l'application">
+                                            <mat-select formControlName="architecture" class="form-control" placeholder="architecture de l'application">
                                                 <mat-option *ngFor="let arch of Archi" [value]="arch.value"
                                                     aria-placeholder="architecture">
                                                     {{arch.viewValue}}
@@ -243,7 +240,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Environnement</label> 
-                                            <mat-select formControlName="environment" placeholder="environnement pour le projet">
+                                            <mat-select formControlName="environment" class="form-control" placeholder="environnement pour le projet">
                                                 <mat-option *ngFor="let env of environment" [value]="env.value">
                                                     {{env.viewValue}}
                                                 </mat-option>
@@ -253,7 +250,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Type Application</label> 
-                                            <mat-select formControlName="typeApplication" placeholder="type d'application" >
+                                            <mat-select formControlName="typeApplication" class="form-control" placeholder="type d'application" >
                                                 <mat-option *ngFor="let tap of typeApp" [value]="tap.value">
                                                     {{tap.viewValue}}
                                                 </mat-option>
@@ -271,7 +268,7 @@
                                                     {{dep}}
                                                     <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                                                 </mat-chip>
-                                                <input placeholder="New Dependence..." #depInput [formControl]="depCtrl"
+                                                <input placeholder="New Dependence..."   #depInput [formControl]="depCtrl"
                                                     [matAutocomplete]="autoDep" [matChipInputFor]="chipListDep"
                                                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                                                     (matChipInputTokenEnd)="addDep($event)">
