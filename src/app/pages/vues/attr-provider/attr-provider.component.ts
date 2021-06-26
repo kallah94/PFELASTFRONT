@@ -1,3 +1,4 @@
+import { DecimalPipe } from '@angular/common';
 import { AfterViewInit, Component, OnDestroy, OnInit, Provider, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
@@ -32,23 +33,25 @@ export class AttrProviderComponent implements OnInit, OnDestroy, AfterViewInit {
   baseUrl = environment.attributeEndpoint
   displayedColumns = ["name", "type", "poids", "pourcentage", "action"]
   types: TYP[] = [
-    {value: 'benefit', viewValue: 'Benefit'},
-    {value: 'cost', viewValue: 'Cout'}
+    { value: 'benefit', viewValue: 'Benefit' },
+    { value: 'cost', viewValue: 'Cout' }
   ]
   attributes: ATTRIBUTES[] = [
-    {value: "reliability", viewValue: 'Fiabilite'},
-    {value: "flexibility", viewValue: 'Flexibilite' },
-    {value: "maturity", viewValue: 'Maturite' },
-    {value: "data_security", viewValue: 'Securite Donnees'},
-    {value: "geo_dispatching", viewValue: "Repartion Geographique"},
-    {value: "price", viewValue: 'Prix'}
+    { value: "reliability", viewValue: 'Fiabilite' },
+    { value: "flexibility", viewValue: 'Flexibilite' },
+    { value: "maturity", viewValue: 'Maturite' },
+    { value: "data_security", viewValue: 'Securite Donnees' },
+    { value: "geo_dispatching", viewValue: "Repartion Geographique" },
+    { value: "price", viewValue: 'Prix' }
   ]
+  defineAttributes = this.attributes
   @ViewChild('myModal1', { static: false }) myModal1: ModalDirective
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   constructor(
     private storeService: StoreService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private decimalPipe: DecimalPipe
   ) { }
 
   scrollToElement($element): void {
@@ -70,6 +73,15 @@ export class AttrProviderComponent implements OnInit, OnDestroy, AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
+  makePercentage(attribut: ProviderAttribut) {
+    let totalPond = attribut.weight
+    this.dataSource.data.forEach(attr => {
+      if (attr.name != attribut.name ) {
+        totalPond = Number(totalPond) + Number(attr.weight)
+      }
+    })
+    return Number(this.decimalPipe.transform((attribut.weight / totalPond) * 100, "2.2-2"))
+  }
   getAllattributes() {
     this.storeService.getItems(this.baseUrl).then(data => {
       this.dataSource.data = data.results
@@ -80,8 +92,7 @@ export class AttrProviderComponent implements OnInit, OnDestroy, AfterViewInit {
   filterAttr() {
     this.dataSource.data.forEach(el => {
       this.attributes = this.attributes.filter(item => item.value != el.name)
-      console.log('test ', this.attributes)
-    }) 
+    })
   }
   get f() {
     return this.attrForm.controls;
@@ -91,7 +102,6 @@ export class AttrProviderComponent implements OnInit, OnDestroy, AfterViewInit {
       nom: ['', Validators.required],
       type: ['', Validators.required],
       poids: ['', Validators.required],
-      pourcentage: [''],
       url: ['']
     })
   }
@@ -104,12 +114,9 @@ export class AttrProviderComponent implements OnInit, OnDestroy, AfterViewInit {
     const attr = new ProviderAttribut()
     attr.name = this.f.nom.value
     attr.weight = this.f.poids.value
-    attr.percentage = this.f.pourcentage.value
     attr.type = this.f.type.value
     attr.url = this.f.url.value
-    console.warn('attr ', attr)
     if (this.isNew) {
-      attr.percentage = 0
       this.create(attr)
     } else {
       this.update(attr)
@@ -131,8 +138,9 @@ export class AttrProviderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.fTitle = 'Update'
     this.isNew = false
     this.f.nom.setValue(row.name)
+    this.attributes.push(this.defineAttributes.find(item => item.value == row.name))
     this.f.poids.setValue(row.weight)
-    this.f.pourcentag.setValue(row.percentage)
+    this.f.type.setValue(row.type)
     this.f.url.setValue(row.url)
   }
   show(url: string) {
@@ -140,6 +148,9 @@ export class AttrProviderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.myModal1.show()
   }
 
+  labelAttr(attribut: string) {
+    return this.defineAttributes.find(item => item.value == attribut).viewValue
+  }
   delete() {
     if (this.url) {
       this.storeService.delItem(this.url).then(data => {

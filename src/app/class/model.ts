@@ -26,7 +26,6 @@ export class ProviderAttribut {
     name!: string
     type!: string
     weight!: number
-    percentage!: number
     url?: string
 }
 

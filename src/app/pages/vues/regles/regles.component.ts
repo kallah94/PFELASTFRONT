@@ -36,7 +36,7 @@ export class ReglesComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   ngOnInit(): void {
     var body = document.getElementsByTagName("body")[0];
-    body.classList.add("profile-page");
+    //body.classList.add("profile-page");
     this.getAllRules()
     this.buildForm()
   }
@@ -125,10 +125,11 @@ export class ReglesComponent implements OnInit, OnDestroy, AfterViewInit {
   delete() {
     if (this.url) {
       this.storeService.delItem(this.url).then(data => {
-
+        this.ngOnInit()
       })
     }
     this.myModal1.hide()
+    
   }
 
   ngOnDestroy() {

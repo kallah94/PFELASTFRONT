@@ -50,7 +50,7 @@
                                             id="plain-table">
                                             <ng-container matColumnDef="name">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Attribut </th>
-                                                <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+                                                <td mat-cell *matCellDef="let row"> {{labelAttr(row.name)}} </td>
                                             </ng-container>
                                             <ng-container matColumnDef="type">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
@@ -58,11 +58,11 @@
                                             </ng-container>
                                             <ng-container matColumnDef="poids">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Ponderation</th>
-                                                <td mat-cell *matCellDef="let row"> {{row.wieght}}</td>
+                                                <td mat-cell *matCellDef="let row"> {{row.weight}}</td>
                                             </ng-container>
                                             <ng-container matColumnDef="pourcentage">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Pourcentage</th>
-                                                <td mat-cell *matCellDef="let row"> {{row.percentage}}</td>
+                                                <td mat-cell *matCellDef="let row"> {{makePercentage(row)}}%</td>
                                             </ng-container>
                                             <ng-container matColumnDef="action">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>

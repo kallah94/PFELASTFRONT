@@ -3,6 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
+import {DecimalPipe} from '@angular/common';
 
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { ProgressbarModule } from "ngx-bootstrap/progressbar";
@@ -38,7 +39,9 @@ import {MatSelectModule} from '@angular/material/select';
 import { ReglesComponent } from './vues/regles/regles.component';
 import { AttrProviderComponent } from './vues/attr-provider/attr-provider.component';
 import { AtomComponent } from './vues/atom/atom.component';
-import { ConditionComponent } from './vues/condition/condition.component'; 
+import { ConditionComponent } from './vues/condition/condition.component';
+import { PriceComponent } from './vues/price/price.component';
+import { NavbarComponent } from './vues/navbar/navbar.component'; 
 
 @NgModule({
   imports: [
@@ -81,7 +84,9 @@ import { ConditionComponent } from './vues/condition/condition.component';
     ReglesComponent,
     AttrProviderComponent,
     AtomComponent,
-    ConditionComponent
+    ConditionComponent,
+    PriceComponent,
+    NavbarComponent
   ],
   exports: [
     IndexComponent,
@@ -90,6 +95,6 @@ import { ConditionComponent } from './vues/condition/condition.component';
     LandingpageComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: []
+  providers: [DecimalPipe]
 })
 export class PagesModule {}
