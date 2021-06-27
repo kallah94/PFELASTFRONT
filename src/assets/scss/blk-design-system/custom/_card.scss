@@ -106,7 +106,7 @@
   }
 
   &.card-coin {
-    border: 2px solid $default;
+    border: 1px solid $default;
 
     .card-header {
       margin: -100px auto 20px;
@@ -147,7 +147,7 @@
 
 @include media-breakpoint-down(xs) {
   .card.card-coin {
-    margin-top: 80px;
+    margin-top: 8px;
   }
 }
 

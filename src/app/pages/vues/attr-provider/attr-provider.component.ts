@@ -142,6 +142,7 @@ export class AttrProviderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.f.poids.setValue(row.weight)
     this.f.type.setValue(row.type)
     this.f.url.setValue(row.url)
+    this.scrollToElement(document.getElementById("form2"))
   }
   show(url: string) {
     this.url = url

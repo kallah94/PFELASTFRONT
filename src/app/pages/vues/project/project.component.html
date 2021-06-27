@@ -24,6 +24,59 @@
         </div>
     </div>
 </div>
+<div aria-hidden="true" aria-labelledby="ratingModal" bsModal class="modal fade" #ratingModal="bs-modal"
+    id="ratingModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <button aria-hidden="true" class="close" data-dismiss="modal" type="button"
+                    (click)="ratingModal.hide()">
+                    <i class="tim-icons icon-simple-remove"> </i>
+                </button>
+                <h4 class="title">Projet: <strong>{{currentProject.name}}</strong></h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    {{this.rating.message}}
+                    <strong>Taux de compatibilite {{this.rating.score | number:'1.2-2'}}%</strong>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" type="button" (click)="rankingProvider()">Best Provider</button>
+                <button class="btn btn-danger" data-dismiss="modal" type="button" (click)="ratingModal.hide()">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div aria-hidden="true" aria-labelledby="rankingModal" bsModal class="modal fade" #rankingModal="bs-modal"
+    id="ratingModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <button aria-hidden="true" class="close" data-dismiss="modal" type="button"
+                    (click)="rankingModal.hide()">
+                    <i class="tim-icons icon-simple-remove"> </i>
+                </button>
+                <h4 class="title">Meilleurs Providers</h4>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group">
+                    <li *ngFor="let rank of ranking" class="list-group-item d-flex justify-content-between align-items-center list-group-item-primary">
+                        <strong>{{rank.provider}} </strong>
+                        <span class="badge badge-danger">{{rank.score | number: '1.2-2'}}%</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" data-dismiss="modal" type="button" (click)="rankingModal.hide()">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="wrapper">
     <section class="section" id="header">
         <div class="page-header" style="padding-top: 300px;">
@@ -59,7 +112,8 @@
                                             <ng-container matColumnDef="cost_estimation">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Estimation-Cout
                                                 </th>
-                                                <td mat-cell *matCellDef="let row"> {{row.costEstimation}}&nbsp;FCFA</td>
+                                                <td mat-cell *matCellDef="let row"> {{row.costEstimation}}&nbsp;FCFA
+                                                </td>
                                             </ng-container>
                                             <ng-container matColumnDef="type_application">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Type-App</th>
@@ -84,7 +138,17 @@
                                             <ng-container matColumnDef="dataSize">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Taille-Donnees
                                                 </th>
-                                                <td mat-cell *matCellDef="let row"> {{row.data_size}}  GiB</td>
+                                                <td mat-cell *matCellDef="let row"> {{row.data_size}} GiB</td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="cpu">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Cpu
+                                                </th>
+                                                <td mat-cell *matCellDef="let row"> {{row.cpu}} Ghz</td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="ram">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Ram
+                                                </th>
+                                                <td mat-cell *matCellDef="let row"> {{row.ram}} GiB</td>
                                             </ng-container>
                                             <ng-container matColumnDef="action">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
@@ -96,6 +160,10 @@
                                                     <button class="btn btn-danger btn-icon btn-round mr-1" type="button"
                                                         data-target="#myModal1" (click)="show(row.url)">
                                                         <i class="tim-icons icon-trash-simple"> </i>
+                                                    </button>
+                                                    <button class="btn btn-warning btn-icon btn-round" type="button"
+                                                        data-target="#myModal" (click)="ratingProject(row)">
+                                                        <i class="tim-icons icon-puzzle-10"> </i>
                                                     </button>
                                                 </td>
                                             </ng-container>
@@ -140,8 +208,8 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Taille des Donnees</label>
-                                            <input class="form-control" placeholder="taille des donnees en GiB" type="number"
-                                                formControlName="dataSize" required />
+                                            <input class="form-control" placeholder="taille des donnees en GiB"
+                                                type="number" formControlName="dataSize" required />
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -155,8 +223,25 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
+                                            <label>Cpu</label>
+                                            <input class="form-control" placeholder="Cpu en Ghz" type="number"
+                                                formControlName="cpu" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Ram</label>
+                                            <input class="form-control" placeholder="Ram en GiB" type="number"
+                                                formControlName="ram" required />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
                                             <label>SLA</label>
-                                            <mat-select formControlName="sla" class="form-control" placeholder="service level agrement">
+                                            <mat-select formControlName="sla" class="form-control"
+                                                placeholder="service level agrement">
                                                 <mat-option *ngFor="let sla of SLA" [value]="sla.value">
                                                     {{sla.viewValue}}
                                                 </mat-option>
@@ -166,7 +251,8 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Architecture</label>
-                                            <mat-select formControlName="architecture" class="form-control" placeholder="architecture de l'application">
+                                            <mat-select formControlName="architecture" class="form-control"
+                                                placeholder="architecture de l'application">
                                                 <mat-option *ngFor="let arch of Archi" [value]="arch.value"
                                                     aria-placeholder="architecture">
                                                     {{arch.viewValue}}
@@ -178,8 +264,9 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Environnement</label> 
-                                            <mat-select formControlName="environment" class="form-control" placeholder="environnement pour le projet">
+                                            <label>Environnement</label>
+                                            <mat-select formControlName="environment" class="form-control"
+                                                placeholder="environnement pour le projet">
                                                 <mat-option *ngFor="let env of environment" [value]="env.value">
                                                     {{env.viewValue}}
                                                 </mat-option>
@@ -188,8 +275,9 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Type Application</label> 
-                                            <mat-select formControlName="typeApplication" class="form-control" placeholder="type d'application" >
+                                            <label>Type Application</label>
+                                            <mat-select formControlName="typeApplication" class="form-control"
+                                                placeholder="type d'application">
                                                 <mat-option *ngFor="let tap of typeApp" [value]="tap.value">
                                                     {{tap.viewValue}}
                                                 </mat-option>
@@ -201,13 +289,14 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Dependences</label>
+
                                             <mat-chip-list #chipListDep aria-label="Dependences selection">
                                                 <mat-chip *ngFor="let dep of dependencies" [selectable]="selectable"
                                                     [removable]="removable" (removed)="removeDep(dep)">
                                                     {{dep}}
                                                     <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                                                 </mat-chip>
-                                                <input placeholder="New Dependence..."   #depInput [formControl]="depCtrl"
+                                                <input placeholder="New Dependence..." #depInput [formControl]="depCtrl"
                                                     [matAutocomplete]="autoDep" [matChipInputFor]="chipListDep"
                                                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                                                     (matChipInputTokenEnd)="addDep($event)">

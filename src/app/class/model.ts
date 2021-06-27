@@ -81,6 +81,37 @@ export class Project {
     dependencies: string[]
     flux: string[]
     data_size: number
+    cpu: number
+    ram: number
     owner: string
     url: string
+}
+
+export interface Env {
+    value: string
+    viewValue: string
+}
+
+export interface Rating {
+    message: string,
+    score: number
+}
+export interface TypeApp {
+    value: string
+    viewValue: string
+}
+
+export interface Sla {
+    value: number
+    viewValue: string
+}
+
+export interface Archi {
+    value: string
+    viewValue: string
+}
+
+export interface RankingProvider {
+    provider: string,
+    score: number
 }

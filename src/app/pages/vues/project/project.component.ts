@@ -9,29 +9,10 @@ import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs';
 import { filter, map, startWith } from 'rxjs/operators';
-import { Project } from 'src/app/class/model';
+import { Archi, Env, Project, RankingProvider, Rating, Sla, TypeApp } from 'src/app/class/model';
 import { StoreService } from 'src/app/service/store.service';
 import { environment } from 'src/environments/environment';
 
-interface Env {
-  value: string
-  viewValue: string
-}
-
-interface TypeApp {
-  value: string
-  viewValue: string
-}
-
-interface Sla {
-  value: number
-  viewValue: string
-}
-
-interface Archi {
-  value: string
-  viewValue: string
-}
 
 @Component({
   selector: 'app-project',
@@ -43,11 +24,15 @@ export class ProjectComponent implements OnInit, OnDestroy, AfterViewInit {
   dataSource = new MatTableDataSource<Project>()
   fTitle = "Nouveau"
   url = null
+  rating: Rating = {message: '', score: 0}
   isDelete = false
   isNew = true
   spinner = false
   baseUrl = environment.projectEndpoint
+  apiUrl = environment.apiUrl
+ providerRankingUrl = environment.providerRanking
   visible = true;
+  currentProject: Project = new Project()
   selectable = true;
   removable = true;
   separatorKeysCodes: number[] = [ENTER, COMMA, TAB];
@@ -57,9 +42,10 @@ export class ProjectComponent implements OnInit, OnDestroy, AfterViewInit {
   filteredFlux: Observable<string[]>;
   dependencies: string[] = []
   flux: string[] = [];
+  ranking: RankingProvider[] = []
   allDependencies: string[] = ['Mysql 7.2', 'MongoDB 1.4.5', 'Nginx 2.5', 'JavaFx 3.0.2']
   allFlux: string[] = ['OrangeMoney', 'Gaya', 'RGSystem', 'Nessico', 'kudo'];
-  displayedColumns = ['name', 'architecture', 'type_application', 'environment', 'sla', 'dependencies', 'flux', 'dataSize', 'cost_estimation', 'action']
+  displayedColumns = ['name', 'architecture', 'type_application', 'environment', 'sla', 'dependencies', 'flux', 'dataSize', 'cost_estimation', 'ram', 'cpu', 'action']
   environment: Env[] = [
     { value: 'development', viewValue: 'Developpement' },
     { value: 'test', viewValue: 'Test' },
@@ -78,10 +64,12 @@ export class ProjectComponent implements OnInit, OnDestroy, AfterViewInit {
     { value: 24, viewValue: '24H' }
   ]
   Archi: Archi[] = [
-    { value: 'mono', viewValue: 'Monolithique' },
-    { value: 'micro', viewValue: 'Microservices' }
+    { value: 'monolithique', viewValue: 'Monolithique' },
+    { value: 'microservice', viewValue: 'Microservices' }
   ]
   @ViewChild('myModal1', { static: false }) myModal1: ModalDirective
+  @ViewChild('ratingModal', {static: false}) ratingModal: ModalDirective
+  @ViewChild('rankingModal', {static: false}) rankingModal: ModalDirective
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('fluxInput') fluxInput: ElementRef<HTMLInputElement>;
@@ -164,10 +152,13 @@ export class ProjectComponent implements OnInit, OnDestroy, AfterViewInit {
     body.classList.add("profile-page");
     this.getAllprojects()
     this.buildForm()
+    this.rating.message = ''
+    this.rating.score = 0
   }
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    console.log(this.dataSource.data)
   }
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -181,6 +172,7 @@ export class ProjectComponent implements OnInit, OnDestroy, AfterViewInit {
   getAllprojects() {
     this.storeService.getItems(this.baseUrl).then(data => {
       this.dataSource.data = data.results
+      console.log(data.results)
     })
   }
   get f() {
@@ -197,6 +189,8 @@ export class ProjectComponent implements OnInit, OnDestroy, AfterViewInit {
       dependencies: [[], [Validators.required]],
       flux: [[], Validators.required],
       dataSize: ['', Validators.required],
+      cpu: ['', Validators.required],
+      ram: ['', Validators.required],
       owner: ['', Validators.required],
       url: ['']
     })
@@ -213,6 +207,7 @@ export class ProjectComponent implements OnInit, OnDestroy, AfterViewInit {
     this.f.flux.setValue(this.flux)
     this.f.dependencies.setValue(this.dependencies)
     if (this.projectForm.invalid) {
+      console.log(this.projectForm.getRawValue())
       return
     }
     this.spinner = true;
@@ -226,6 +221,8 @@ export class ProjectComponent implements OnInit, OnDestroy, AfterViewInit {
     project.dependencies = this.f.dependencies.value
     project.flux = this.f.flux.value
     project.data_size = this.f.dataSize.value
+    project.cpu = this.f.cpu.value
+    project.ram = this.f.ram.value
     project.owner = this.f.owner.value
     project.url = this.f.url.value
     console.log(project)
@@ -256,6 +253,8 @@ export class ProjectComponent implements OnInit, OnDestroy, AfterViewInit {
     this.f.dependencies.setValue(row.dependencies)
     this.f.flux.setValue(row.flux)
     this.f.dataSize.setValue(row.data_size)
+    this.f.cpu.setValue(row.cpu)
+    this.f.ram.setValue(row.ram)
     this.f.owner.setValue(row.owner)
     this.f.url.setValue(row.url)
     this.scrollToElement(document.getElementById("form"))
@@ -265,6 +264,16 @@ export class ProjectComponent implements OnInit, OnDestroy, AfterViewInit {
     this.myModal1.show()
   }
 
+  ratingProject(row: Project) {
+    this.storeService.detailItem(`${row.url}rating`).then(data => {
+      console.warn(data)
+      this.rating.score = data.score
+      this.rating.message = data.message
+      this.currentProject = row
+
+    })
+    this.ratingModal.show()
+  }
   delete() {
     if (this.url) {
       this.storeService.delItem(this.url).then(data => {
@@ -272,6 +281,15 @@ export class ProjectComponent implements OnInit, OnDestroy, AfterViewInit {
       })
     }
     this.myModal1.hide()
+  }
+
+  rankingProvider() {
+    this.storeService.detailItem(`${this.apiUrl}/${this.providerRankingUrl}`).then(data => {
+      this.ranking = data
+      console.log("rank", this.ranking)
+      this.ratingModal.hide()
+      this.rankingModal.show()
+    })
   }
   ngOnDestroy() {
     var body = document.getElementsByTagName("body")[0];

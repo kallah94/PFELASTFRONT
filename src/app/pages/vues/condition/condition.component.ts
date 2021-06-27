@@ -31,6 +31,7 @@ export class ConditionComponent implements OnInit, OnDestroy, AfterViewInit{
   conditions: FormArray
   fTitle = "Nouveau"
   isNew = true
+  switcher = false
   url: string
   index = 0
   atoms: Atom[]
@@ -56,10 +57,7 @@ export class ConditionComponent implements OnInit, OnDestroy, AfterViewInit{
   ]
   comparators: COMPARATOR[] = [
     { value: '==', viewValue: "egale a" },
-    { value: '<', viewValue: "inferieur a" },
-    { value: '<=', viewValue: "inferieur ou egale a" },
-    { value: '>', viewValue: "superieur a" },
-    { value: '>=', viewValue: "superieur ou egal a" },
+    { value: '<', viewValue: "inferieur a" }
   ]
   @ViewChild('myModal1', { static: false }) myModal1: ModalDirective
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -105,7 +103,7 @@ export class ConditionComponent implements OnInit, OnDestroy, AfterViewInit{
       condValue: new FormControl('')
     })
   }
-
+  
   addCond() {
     const conditions = this.atomForm.get('conditions') as FormArray
     conditions.push(this.createCond())
@@ -126,12 +124,11 @@ export class ConditionComponent implements OnInit, OnDestroy, AfterViewInit{
     })
   }
   submit() {
-    if (this.atomForm.invalid) { console.warn(this.atomForm.getRawValue()); return }
+    if (this.atomForm.invalid) { return }
     const atom = new Atom()
     atom.criteria = this.f.critere.value
     atom.condition = this.f.conditions.value
     atom.url = this.f.url.value
-    console.warn(atom)
     if (this.isNew) {
       this.create(atom)
     } else {
@@ -168,7 +165,6 @@ export class ConditionComponent implements OnInit, OnDestroy, AfterViewInit{
     this.removeCond(this.index)
     this.index = 0
     this.scrollToElement(document.getElementById("form2"))
-    console.warn('test ', this.atomForm.controls.conditions.value)
   }
   show(url: string) {
     this.url = url

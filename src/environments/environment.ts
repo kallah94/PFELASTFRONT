@@ -8,6 +8,7 @@ export const environment = {
   jwtLogin: 'api-token-auth/',
   jwtRefresh: 'api-token-refresh/',
   providerEndpoint: 'providers',
+  providerRanking: 'providers/rating',
   ruleEndpoint: 'rules',
   pricingEndpoint: 'pricing',
   projectEndpoint: 'projects',
