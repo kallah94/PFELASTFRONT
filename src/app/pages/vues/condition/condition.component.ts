@@ -140,14 +140,14 @@ export class ConditionComponent implements OnInit, OnDestroy, AfterViewInit{
     this.storeService.setItem(atom, this.baseUrl).then(data => {
       this.spinner = false
       this.atomForm.reset()
-      this.ngOnInit()
+      this.reload().then()
     })
   }
   update(atom: Atom) {
     this.storeService.updatItem(atom).then(data => {
       this.spinner = false
       this.atomForm.reset()
-      this.ngOnInit()
+      this.reload().then()
     })
   }
   edit(row: Atom) {
@@ -174,7 +174,7 @@ export class ConditionComponent implements OnInit, OnDestroy, AfterViewInit{
   delete() {
     if (this.url) {
       this.storeService.delItem(this.url).then(data => {
-
+        this.reload().then()
       })
     }
     this.myModal1.hide()
@@ -192,7 +192,22 @@ export class ConditionComponent implements OnInit, OnDestroy, AfterViewInit{
   getOpLabel(value: string): string {
     return this.comparators.find(comp => comp.value == value).viewValue
   }
- 
+  reloading(x: unknown) {
+    this.spinner = true
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(x)
+      }, 3000)
+    })
+  }
+
+  async reload() {
+    const val = <number> await this.reloading(5)
+    if (val) {
+      this.spinner = false
+      this.ngOnInit
+    }
+  }
   ngOnDestroy() {
     var body = document.getElementsByTagName("body")[0];
     body.classList.remove("profile-page");

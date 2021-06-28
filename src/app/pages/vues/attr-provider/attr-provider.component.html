@@ -1,5 +1,5 @@
 
-<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-mini modal-warning modal-mini"
+<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-mini modal-primary modal-mini"
 #myModal1="bs-modal" id="myModal1" role="dialog" tabindex="-1">
 <div class="modal-dialog">
     <div class="modal-content">
@@ -13,12 +13,12 @@
             </div>
         </div>
         <div class="modal-body">
-            <p>Always have an access to your profile</p>
+            <p>Supprimer cet Attribut?</p>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-link btn-neutral" type="button">Back</button>
+            <button class="btn btn-link btn-neutral" type="button" (click)="myModal1.hide()">Retour</button>
             <button class="btn btn-link btn-neutral" data-dismiss="modal" type="button" (click)="delete()">
-                Close
+                <i class="tim-icons icon-check-2"> </i>
             </button>
         </div>
     </div>

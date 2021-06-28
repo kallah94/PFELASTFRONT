@@ -12,7 +12,8 @@ import { filter, map, startWith } from 'rxjs/operators';
 import { Archi, Env, Project, RankingProvider, Rating, Sla, TypeApp } from 'src/app/class/model';
 import { StoreService } from 'src/app/service/store.service';
 import { environment } from 'src/environments/environment';
-
+import { MatDialog } from '@angular/material/dialog';
+import { SpinnerComponent } from '../spinner/spinner.component';
 
 @Component({
   selector: 'app-project',
@@ -79,6 +80,7 @@ export class ProjectComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private storeService: StoreService,
+    private dialog: MatDialog,
     private formBuilder: FormBuilder
   ) {
     this.filteredFlux = this.fluxCtrl.valueChanges.pipe(
@@ -172,7 +174,6 @@ export class ProjectComponent implements OnInit, OnDestroy, AfterViewInit {
   getAllprojects() {
     this.storeService.getItems(this.baseUrl).then(data => {
       this.dataSource.data = data.results
-      console.log(data.results)
     })
   }
   get f() {
@@ -236,10 +237,12 @@ export class ProjectComponent implements OnInit, OnDestroy, AfterViewInit {
     this.storeService.setItem(project, this.baseUrl).then(data => {
       this.spinner = true
       this.projectForm.reset()
+      this.reload().then()
     })
   }
   update(project: Project) {
     this.storeService.updatItem(project).then(data => { this.spinner = true; this.projectForm.reset() })
+    this.reload().then()
   }
   edit(row: Project) {
     this.fTitle = 'Update'
@@ -290,6 +293,25 @@ export class ProjectComponent implements OnInit, OnDestroy, AfterViewInit {
       this.ratingModal.hide()
       this.rankingModal.show()
     })
+  }
+
+  reloading(x: unknown) {
+    this.spinner = true
+    this.dialog.open(SpinnerComponent)
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(x)
+      }, 3000)
+    })
+  }
+
+  async reload() {
+    const val = <number> await this.reloading(5)
+    if (val) {
+      this.spinner = false
+      this.ngOnInit
+      this.dialog.closeAll()
+    }
   }
   ngOnDestroy() {
     var body = document.getElementsByTagName("body")[0];

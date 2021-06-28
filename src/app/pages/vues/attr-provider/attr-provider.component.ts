@@ -126,12 +126,14 @@ export class AttrProviderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.storeService.setItem(attr, this.baseUrl).then(data => {
       this.spinner = false
       this.attrForm.reset()
+      this.reload().then()
     })
   }
   update(attr: ProviderAttribut) {
     this.storeService.updatItem(attr).then(data => {
       this.spinner = false
       this.attrForm.reset()
+      this.reload().then()
     })
   }
   edit(row: ProviderAttribut) {
@@ -155,10 +157,26 @@ export class AttrProviderComponent implements OnInit, OnDestroy, AfterViewInit {
   delete() {
     if (this.url) {
       this.storeService.delItem(this.url).then(data => {
-
+        this.reload().then()
       })
     }
     this.myModal1.hide()
+  }
+  reloading(x: unknown) {
+    this.spinner = true
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(x)
+      }, 3000)
+    })
+  }
+
+  async reload() {
+    const val = <number> await this.reloading(5)
+    if (val) {
+      this.spinner = false
+      this.ngOnInit
+    }
   }
   ngOnDestroy() {
     var body = document.getElementsByTagName("body")[0];

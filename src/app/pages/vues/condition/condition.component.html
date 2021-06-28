@@ -66,113 +66,113 @@
                 </div>
             </div>
             <div class="modal-body">
-                <p>Always have an access to your profile</p>
+                <p>Supprimer ?</p>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-link btn-neutral" type="button">Back</button>
+                <button class="btn btn-link btn-neutral" type="button" (click)="myModal1.hide()">Retour</button>
                 <button class="btn btn-link btn-neutral" data-dismiss="modal" type="button" (click)="delete()">
-                    Close
+                    <i class="tim-icons icon-check-2"> </i>
                 </button>
             </div>
         </div>
     </div>
 </div>
-    <section class="section">
-        <div class="container" id="form2">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card card-plain">
-                        <div class="card-header">
-                            <h5 class="text-on-back" align="center">{{fTitle}}</h5>
-                        </div>
-                        <div class="card-body">
-                            <form [formGroup]="atomForm">
-                                <div class="row">
-                                    <div class="col-md-10">
+<section class="section">
+    <div class="container" id="form2">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-plain">
+                    <div class="card-header">
+                        <h5 class="text-on-back" align="center">{{fTitle}}</h5>
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="atomForm">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <label>Attribut</label>
+                                        <mat-select formControlName="critere" class="form-control"
+                                            placeholder="attribut concernee....">
+                                            <mat-option *ngFor="let critere of criteres" [value]="critere.value">
+                                                {{critere.viewValue}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary btn-icon btn-round" style="margin-top:20px"
+                                        type="button" (click)="addCond()">
+                                        <i class="tim-icons icon-simple-add"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div formArrayName="conditions" *ngFor="let cond of getControles(); let i = index">
+                                <div class="row" [formGroupName]="i">
+                                    <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Attribut</label>
-                                            <mat-select formControlName="critere" class="form-control"
-                                                placeholder="attribut concernee....">
-                                                <mat-option *ngFor="let critere of criteres" [value]="critere.value">
-                                                    {{critere.viewValue}}
+                                            <label>Champ Concerne</label>
+                                            <mat-select formControlName="condField" class="form-control"
+                                                placeholder="champs concernee">
+                                                <mat-option *ngFor="let field of fields" [value]="field.value">
+                                                    {{field.viewValue}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Comparateur</label>
+                                            <mat-select formControlName="condOp" class="form-control"
+                                                placeholder="champs concernee">
+                                                <mat-option *ngFor="let comp of comparators" [value]="comp.value">
+                                                    {{comp.viewValue}}
                                                 </mat-option>
                                             </mat-select>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
-                                        <button class="btn btn-primary btn-icon btn-round" style="margin-top:20px"
-                                            type="button" (click)="addCond()">
-                                            <i class="tim-icons icon-simple-add"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div formArrayName="conditions" *ngFor="let cond of getControles(); let i = index">
-                                    <div class="row" [formGroupName]="i">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Champ Concerne</label>
-                                                <mat-select formControlName="condField" class="form-control"
-                                                    placeholder="champs concernee">
-                                                    <mat-option *ngFor="let field of fields" [value]="field.value">
-                                                        {{field.viewValue}}
-                                                    </mat-option>
-                                                </mat-select>
-                                            </div>
+                                        <div class="form-group">
+                                            <label>Seuil~Ref</label>
+                                            <input class="form-control" placeholder=" valeur seuil...." type="text"
+                                                formControlName="condSeuil" required />
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Comparateur</label>
-                                                <mat-select formControlName="condOp" class="form-control"
-                                                    placeholder="champs concernee">
-                                                    <mat-option *ngFor="let comp of comparators" [value]="comp.value">
-                                                        {{comp.viewValue}}
-                                                    </mat-option>
-                                                </mat-select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>Seuil~Ref</label>
-                                                <input class="form-control" placeholder=" valeur seuil...." type="text"
-                                                    formControlName="condSeuil" required />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>Valeur</label>
-                                                <input class="form-control" placeholder=" valeur prise...."
-                                                    type="number" formControlName="condValue" required />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <button class="btn btn-danger btn-icon btn-round" style="margin-top:20px"
-                                                type="button" data-target="#myModal1" (click)="removeCond(i)">
-                                                <i class="tim-icons icon-trash-simple"> </i>
-                                            </button>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-
-                                <div class="row justify-content-center">
-                                    <div class="col-md-3 mr-1">
-                                        <button class="btn btn-success btn-round float-left" placement="left"
-                                            type="submit" (click)="submit()">
-                                            Save
-                                        </button>
                                     </div>
                                     <div class="col-md-2">
-                                        <button class="btn btn-danger btn-round float-right" placement="right"
-                                            type="submit" (click)="reset()">
-                                            Reset
+                                        <div class="form-group">
+                                            <label>Valeur</label>
+                                            <input class="form-control" placeholder=" valeur prise...." type="number"
+                                                formControlName="condValue" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-danger btn-icon btn-round" style="margin-top:20px"
+                                            type="button" data-target="#myModal1" (click)="removeCond(i)">
+                                            <i class="tim-icons icon-simple-remove"> </i>
                                         </button>
                                     </div>
+
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+
+                            <div class="row justify-content-center">
+                                <div class="col-md-3 mr-1">
+                                    <button class="btn btn-success btn-round float-left" placement="left" type="submit"
+                                        (click)="submit()">
+                                        Save
+                                    </button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-danger btn-round float-right" placement="right" type="submit"
+                                        (click)="reset()">
+                                        Reset
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-
             </div>
+
         </div>
-    </section>
+    </div>
+</section>

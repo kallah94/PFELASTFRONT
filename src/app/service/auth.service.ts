@@ -47,7 +47,8 @@ export class AuthService {
   }
   refreshToken() {
     const refreshToken = this.currentUserValue.refreshToken
-    return this.http.post<any>(`${this.apiUrl}/api-token-refresh/`, { 'token': refreshToken })
+    console.log(refreshToken)
+    return this.http.post<any>(`${this.apiUrl}/api-token-refresh/`, { 'token': refreshToken }, {headers: {skip: 'true'}})
       .pipe(
         map(response => {
           let currentUser!: User

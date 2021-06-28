@@ -36,12 +36,15 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatSelectModule} from '@angular/material/select';
+import {MatDialogModule} from '@angular/material/dialog';
 import { ReglesComponent } from './vues/regles/regles.component';
 import { AttrProviderComponent } from './vues/attr-provider/attr-provider.component';
 import { AtomComponent } from './vues/atom/atom.component';
 import { ConditionComponent } from './vues/condition/condition.component';
 import { PriceComponent } from './vues/price/price.component';
-import { NavbarComponent } from './vues/navbar/navbar.component'; 
+import { NavbarComponent } from './vues/navbar/navbar.component';
+import { SpinnerComponent } from './vues/spinner/spinner.component';
+import { FooterComponent } from './vues/footer/footer.component'; 
 
 @NgModule({
   imports: [
@@ -71,7 +74,8 @@ import { NavbarComponent } from './vues/navbar/navbar.component';
     MatChipsModule,
     MatAutocompleteModule,
     MatIconModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDialogModule
   ],
   declarations: [
     IndexComponent,
@@ -86,7 +90,9 @@ import { NavbarComponent } from './vues/navbar/navbar.component';
     AtomComponent,
     ConditionComponent,
     PriceComponent,
-    NavbarComponent
+    NavbarComponent,
+    SpinnerComponent,
+    FooterComponent
   ],
   exports: [
     IndexComponent,

@@ -13,9 +13,9 @@ import { StoreService } from 'src/app/service/store.service';
   templateUrl: './price.component.html',
   styleUrls: ['./price.component.scss']
 })
-export class PriceComponent implements OnInit,OnDestroy, AfterViewInit{
+export class PriceComponent implements OnInit, OnDestroy, AfterViewInit {
   isCollapsed = true;
-  priceForm:FormGroup;
+  priceForm: FormGroup;
   dataSource = new MatTableDataSource<Pricing>();
   title = "Nouveau"
   url = null;
@@ -23,17 +23,17 @@ export class PriceComponent implements OnInit,OnDestroy, AfterViewInit{
   isNew = true;
   spinner = false;
   baseUrl = environment.pricingEndpoint
-  displayedColumns = ['provider','category','ram','cpu','price_per_hour','price_per_month','action']
+  displayedColumns = ['provider', 'category', 'ram', 'cpu', 'price_per_hour', 'price_per_month', 'action']
   @ViewChild('myModal1', { static: false }) myModal1: ModalDirective
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  
-  constructor(private storeService:StoreService, 
+
+  constructor(private storeService: StoreService,
     private formBuilder: FormBuilder) { }
 
-    scrollToElement($element): void {
-      $element.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
-    }
+  scrollToElement($element): void {
+    $element.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+  }
 
   ngOnInit(): void {
     var body = document.getElementsByTagName("body")[0];
@@ -55,7 +55,7 @@ export class PriceComponent implements OnInit,OnDestroy, AfterViewInit{
     }
   }
 
-  getPricingItem(){
+  getPricingItem() {
     this.storeService.getItems(this.baseUrl).then(
       data => {
         this.dataSource.data = data.results
@@ -78,13 +78,13 @@ export class PriceComponent implements OnInit,OnDestroy, AfterViewInit{
       url: ['']
     })
   }
-  reset(){
+  reset() {
     this.priceForm.reset()
     this.title = 'Nouveau'
   }
 
-  submit(){
-    if (this.priceForm.invalid){
+  submit() {
+    if (this.priceForm.invalid) {
       return
     }
     this.spinner = true;
@@ -96,31 +96,33 @@ export class PriceComponent implements OnInit,OnDestroy, AfterViewInit{
     price.price_per_hour = this.f.price_per_hour.value
     price.price_per_month = this.f.price_per_month.value
     price.url = this.f.url.value
-    if(this.isNew){
+    if (this.isNew) {
       this.addPricing(price)
     }
-    else{
+    else {
       this.update(price)
     }
   }
 
-  addPricing(price:Pricing){
+  addPricing(price: Pricing) {
     this.storeService.setItem(price, this.baseUrl).then(
       data => {
         this.spinner = false;
         this.priceForm.reset()
       }
     )
+    this.reload().then()
   }
 
-  update(price:Pricing){
-   this.storeService.updatItem(price).then(
-     data => {
-       this.priceForm.reset()
-     }
-   )
+  update(price: Pricing) {
+    this.storeService.updatItem(price).then(
+      data => {
+        this.priceForm.reset()
+      }
+    )
+    this.reload()
   }
-  edit(row: Pricing){
+  edit(row: Pricing) {
     this.title = 'update'
     this.isNew = false
     this.f.provider.setValue(row.provider)
@@ -133,19 +135,35 @@ export class PriceComponent implements OnInit,OnDestroy, AfterViewInit{
     this.scrollToElement(document.getElementById("form"))
   }
 
-  show(url: string){
+  show(url: string) {
     this.url = url
     this.myModal1.show()
   }
 
-  delete(){
-    if(this.url){
-      this.storeService.delItem(this.url).then(data =>
-        {})
+  delete() {
+    if (this.url) {
+      this.storeService.delItem(this.url).then(data => { })
+      this.reload().then()
     }
     this.myModal1.hide()
   }
 
+  reloading(x: unknown) {
+    this.spinner = true
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(x)
+      }, 3000)
+    })
+  }
+
+  async reload() {
+    const val = <number>await this.reloading(5)
+    if (val) {
+      this.spinner = false
+      this.ngOnInit
+    }
+  }
   ngOnDestroy() {
     var body = document.getElementsByTagName("body")[0];
     body.classList.remove("profile-page");

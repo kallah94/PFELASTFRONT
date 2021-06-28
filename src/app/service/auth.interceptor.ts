@@ -22,7 +22,7 @@ export class AuthInterceptor implements HttpInterceptor {
     const currentUser = this.authService.currentUserValue
     const isLoggedIn = currentUser && currentUser.token
     const isApiUrl = request.url.startsWith(environment.apiUrl)
-
+    const skipInterceptor = request.headers.has('skip');
     if (isLoggedIn
       && isApiUrl
       && currentUser
@@ -35,10 +35,14 @@ export class AuthInterceptor implements HttpInterceptor {
         }
       })
     }
-
+    if (skipInterceptor) {
+      request = request.clone({
+        headers: request.headers.delete('skip')
+      });
+    }
     return next.handle(request).pipe(catchError(error => {
 
-      if (error instanceof HttpErrorResponse && (error.status === 401 || error.status === 403)
+      if (error instanceof HttpErrorResponse && (error.status === 401 || error.status === 403 || error.status == 400)
         && request.url === `${environment.apiUrl}/${environment.jwtRefresh}`) {
         this.authService.logout()
         return throwError(error)
@@ -57,7 +61,7 @@ export class AuthInterceptor implements HttpInterceptor {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);
-
+      return this.authService.logout
       return this.authService.refreshToken().pipe(
         switchMap((token: any) => {
           this.isRefreshing = false;

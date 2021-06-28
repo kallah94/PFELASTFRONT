@@ -95,6 +95,7 @@ export class ReglesComponent implements OnInit, OnDestroy, AfterViewInit {
     this.storeService.setItem(regle, this.baseUrl).then(data => {
       this.spinner = false
       this.reglForm.reset()
+      this.reload().then()
     })
   }
 
@@ -102,6 +103,7 @@ export class ReglesComponent implements OnInit, OnDestroy, AfterViewInit {
     this.storeService.updatItem(regle).then(data => {
       this.spinner = false
       this.reglForm.reset()
+      this.reload().then()
     })
   }
 
@@ -125,13 +127,28 @@ export class ReglesComponent implements OnInit, OnDestroy, AfterViewInit {
   delete() {
     if (this.url) {
       this.storeService.delItem(this.url).then(data => {
-        this.ngOnInit()
+       this.reload().then()
       })
     }
     this.myModal1.hide()
     
   }
+  reloading(x: unknown) {
+    this.spinner = true
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(x)
+      }, 3000)
+    })
+  }
 
+  async reload() {
+    const val = <number> await this.reloading(5)
+    if (val) {
+      this.spinner = false
+      this.ngOnInit
+    }
+  }
   ngOnDestroy() {
     var body = document.getElementsByTagName("body")[0];
     body.classList.remove("profile-page");

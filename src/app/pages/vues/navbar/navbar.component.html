@@ -3,7 +3,7 @@
         <div class="navbar-translate">
             <a class="navbar-brand" [routerLink]="['/management']" placement="bottom"
                 tooltip="Designed and Coded by Creative Tim">
-                <span>MoGueneApp </span>
+                <span>Moo GëneApp</span>
             </a>
             <button aria-controls="navigation-index" aria-label="Toggle navigation"
                 class="navbar-toggler navbar-toggler" [attr.aria-expanded]="!isCollapsed"
@@ -28,34 +28,42 @@
             </div>
             <ul class="navbar-nav">
                 <li class="nav-item p-0">
-                    <a class="nav-link" [routerLink]="['/providers']" placement="bottom" tooltip="List des clouds">
-                        <i class="tim-icons icon-cloud-upload-94"> </i>
-                        <p class="d-lg-none d-xl-none">Clouds</p>
+                    <a class="nav-link btn btn-default btn-primary"  [routerLink]="['/providers']" placement="bottom" tooltip="List des clouds">
+                        <i class="tim-icons icon-cloud-upload-94"> </i> Providers
                     </a>
                 </li>
                 <li class="nav-item p-0">
-                    <a class="nav-link" [routerLink]="['/projects']" placement="bottom" tooltip="List des projets">
-                        <i class="tim-icons icon-app"></i>
-                        <p class="d-lg-none d-xl-none">Projets</p>
+                    <a class="nav-link btn btn-default btn-primary"  [routerLink]="['/projects']" placement="bottom" tooltip="List des projets">
+                        <i class="tim-icons icon-app"></i> Projets
                     </a>
                 </li>
                 <li class="nav-item p-0">
-                    <a class="nav-link" [routerLink]="['/regles']" placement="bottom"
+                    <a class="nav-link btn btn-default btn-primary" [routerLink]="['/regles']" placement="bottom"
                         tooltip="Les references d'applications cloud public ready">
-                        <i class="tim-icons icon-settings-gear-63"></i>
-                        <p class="d-lg-none d-xl-none">Regles</p>
+                        <i class="tim-icons icon-settings-gear-63"></i> Regles
                     </a>
                 </li>
                 <li class="nav-item p-0">
-                    <a class="nav-link" [routerLink]="['/pricing']" placement="bottom"
+                    <a class="nav-link btn btn-default btn-primary" [routerLink]="['/pricing']" placement="bottom"
                         tooltip="Les gabarits de VMs et leurs facturation">
-                        <i class="tim-icons icon-coins"></i>
-                        <p class="d-lg-none d-xl-none">Pricing</p>
+                        <i class="tim-icons icon-coins"></i>Pricing
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" [routerLink]="['/management']">
+                    <a class="nav-link btn btn-default btn-primary" [routerLink]="['/management']">
                         <i class="fas fa-home"></i>home </a>
+                </li>
+                <li class="nav-item" *ngIf="!currentUser">
+                    <a class="nav-link btn btn-primary"
+                        (click)="myModal2.show()">
+                        <i class="fas fa-sign-up"> </i> Sign In
+                    </a>
+                </li>
+                <li class="nav-item" *ngIf="currentUser">
+                    <a class="nav-link btn btn-default btn-primary" href="javascript:void(0)"
+                        (click)="logOut()">
+                        <i class="fas fa-sign-out-alt"></i>logout
+                    </a>
                 </li>
             </ul>
         </div>

@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-mini modal-warning modal-mini"
+<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-mini modal-primary modal-mini"
     #myModal1="bs-modal" id="myModal1" role="dialog" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -13,12 +13,12 @@
                 </div>
             </div>
             <div class="modal-body">
-                <p>Always have an access to your profile</p>
+                <p>Supprimer ?</p>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-link btn-neutral" type="button">Back</button>
+                <button class="btn btn-link btn-neutral" type="button" (click)="myModal1.hide()">Retour</button>
                 <button class="btn btn-link btn-neutral" data-dismiss="modal" type="button" (click)="delete()">
-                    Close
+                    <i class="tim-icons icon-check-2"> </i>
                 </button>
             </div>
         </div>
@@ -176,70 +176,5 @@
     <section class="section">
         <app-condition></app-condition>
     </section>
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3">
-                    <h1 class="title">BLK•</h1>
-                </div>
-                <div class="col-md-3">
-                    <ul class="nav">
-                        <li class="nav-item">
-                            <a class="nav-link" [routerLink]="['/home']"> Home </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" [routerLink]="['/landing']"> Landing </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" [routerLink]="['/register']"> Register </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" [routerLink]="['/profile']"> Profile </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <ul class="nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="https://creative-tim.com/contact-us">
-                                Contact Us
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="https://creative-tim.com/about-us">
-                                About Us
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="https://creative-tim.com/blog">
-                                Blog
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="https://opensource.org/licenses/MIT">
-                                License
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h3 class="title">Follow us:</h3>
-                    <div class="btn-wrapper profile">
-                        <a class="btn btn-icon btn-neutral btn-round btn-simple mr-1"
-                            href="https://twitter.com/creativetim" target="_blank">
-                            <i class="fab fa-twitter"> </i>
-                        </a>
-                        <a class="btn btn-icon btn-neutral btn-round btn-simple mr-1"
-                            href="https://www.facebook.com/creativetim" target="_blank">
-                            <i class="fab fa-facebook-square"> </i>
-                        </a>
-                        <a class="btn btn-icon btn-neutral btn-round btn-simple" href="https://dribbble.com/creativetim"
-                            target="_blank">
-                            <i class="fab fa-dribbble"> </i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <app-footer></app-footer>
 </div>
