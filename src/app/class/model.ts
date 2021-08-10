@@ -35,6 +35,7 @@ export class Rule {
     complexity: number | undefined;
     availability: number | undefined;
     type: string | undefined;
+    contraint: number | undefined;
     url?: string
 }
 
@@ -114,4 +115,9 @@ export interface Archi {
 export interface RankingProvider {
     provider: string,
     score: number
+}
+
+export interface Contraint {
+    value: number
+    viewValue: string
 }

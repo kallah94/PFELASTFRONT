@@ -5,7 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Rule } from 'src/app/class/model';
+import { Contraint, Rule, TypeApp } from 'src/app/class/model';
 import { StoreService } from 'src/app/service/store.service';
 import { environment } from 'src/environments/environment';
 
@@ -23,7 +23,18 @@ export class ReglesComponent implements OnInit, OnDestroy, AfterViewInit {
   url: string
   spinner = false
   baseUrl = environment.ruleEndpoint
-  displayedColumns = ["name", "criticality", "complexity", "availability", "type", "action"]
+  displayedColumns = ["name", "criticality", "complexity", "availability", "type","contrainte", "action"]
+  CONTRAINT: Contraint[] = [
+    {value: 5, viewValue: '5%'},
+    {value: 10, viewValue: '10%'},
+    {value: 15, viewValue: '15%'},
+    {value: 20, viewValue: '20%'}
+  ]
+  TypeApp: TypeApp[] = [
+    { value: 'mobile', viewValue: 'Mobile' },
+    { value: 'desktop', viewValue: 'DeskTop' },
+    { value: 'web', viewValue: 'Web' }
+  ]
   @ViewChild('myModal1', { static: false }) myModal1: ModalDirective
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -67,6 +78,7 @@ export class ReglesComponent implements OnInit, OnDestroy, AfterViewInit {
       complexite: ['', Validators.required],
       disponibilite: ['', Validators.required],
       type: ['', Validators.required],
+      contraint: ['', Validators.required],
       url: ['']
     })
   }
@@ -83,6 +95,7 @@ export class ReglesComponent implements OnInit, OnDestroy, AfterViewInit {
     regle.complexity = this.f.complexite.value
     regle.availability = this.f.disponibilite.value
     regle.type = this.f.type.value
+    regle.contraint = this.f.contraint.value
     regle.url = this.f.url.value
     if (this.isNew) {
       this.create(regle)
@@ -95,6 +108,7 @@ export class ReglesComponent implements OnInit, OnDestroy, AfterViewInit {
     this.storeService.setItem(regle, this.baseUrl).then(data => {
       this.spinner = false
       this.reglForm.reset()
+      console.log("data ", data)
       this.reload().then()
     })
   }
@@ -116,6 +130,7 @@ export class ReglesComponent implements OnInit, OnDestroy, AfterViewInit {
     this.f.disponibilite.setValue(row.availability)
     this.f.type.setValue(row.type)
     this.f.url.setValue(row.url)
+    this.f.contraint.setValue(row.contraint)
     this.scrollToElement(document.getElementById("form"))
   }
 

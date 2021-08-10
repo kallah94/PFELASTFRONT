@@ -68,6 +68,10 @@
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
                                                 <td mat-cell *matCellDef="let row"> {{row.type}}</td>
                                             </ng-container>
+                                            <ng-container matColumnDef="contrainte">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Contrainte</th>
+                                                <td mat-cell *matCellDef="let row"> {{row.contraint}}%</td>
+                                            </ng-container>
                                             <ng-container matColumnDef="action">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
                                                 <td mat-cell *matCellDef="let row">
@@ -145,9 +149,26 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
+                                            <label>Contrainte</label>
+                                            <mat-select formControlName="contraint" class="form-control"
+                                                placeholder="contrainte ">
+                                                <mat-option *ngFor="let contraint of CONTRAINT" [value]="contraint.value">
+                                                    {{contraint.viewValue}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
                                             <label>Type de Regle</label>
-                                            <input class="form-control" placeholder="regle pour ...." type="text"
-                                                formControlName="type" max="100" min="0" required />
+                                            <mat-select formControlName="type" class="form-control"
+                                                placeholder="type d'application">
+                                                <mat-option *ngFor="let tap of TypeApp" [value]="tap.value">
+                                                    {{tap.viewValue}}
+                                                </mat-option>
+                                            </mat-select>
                                         </div>
                                     </div>
                                 </div>
