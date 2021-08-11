@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8000',
+  apiUrl: 'http://35.184.193.120:8000',
   jwtLogin: 'api-token-auth/',
   jwtRefresh: 'api-token-refresh/',
   providerEndpoint: 'providers',
